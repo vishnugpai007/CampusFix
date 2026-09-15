@@ -1,11 +1,4 @@
-import axios from 'axios';
+import api, { setAccessToken, getAccessToken, parseApiError } from './client';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1',
-  withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
-
+export { setAccessToken, getAccessToken, parseApiError };
 export default api;
