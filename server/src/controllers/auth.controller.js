@@ -3,10 +3,11 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { env } from '../config/env.js';
 import * as authService from '../services/auth.service.js';
 
+// Cross-site cookie configuration for production deployment (e.g. Render backend + Vercel frontend)
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
-  sameSite: 'strict',
+  sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
 };
 

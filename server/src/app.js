@@ -14,6 +14,9 @@ import commentRouter, { commentItemRouter } from './routes/comment.routes.js';
 
 const app = express();
 
+// Trust reverse proxy (Render, Heroku, Nginx) so req.protocol and secure cookies function correctly
+app.set('trust proxy', 1);
+
 // 1. Security Headers: Helmet must run first so all responses include security headers.
 app.use(helmet());
 
