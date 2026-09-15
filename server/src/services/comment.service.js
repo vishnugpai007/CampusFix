@@ -1,6 +1,7 @@
 import { Comment } from '../models/comment.model.js';
 import { Issue } from '../models/issue.model.js';
 import { ApiError } from '../utils/ApiError.js';
+import { isOwnerOrStaffOrAdmin } from '../utils/authHelpers.js';
 
 export const createComment = async (issueId, authorId, text) => {
   const issue = await Issue.findById(issueId);
@@ -18,36 +19,39 @@ export const createComment = async (issueId, authorId, text) => {
   return comment.populate('author', 'name email role');
 };
 
-export const getCommentsByIssue = async (issueId, { page = 1, limit = 10 }) => {
+export const getCommentsByIssue = async (issueId, queryParams = {}) => {
   const issue = await Issue.findById(issueId);
   if (!issue) {
     throw new ApiError(404, 'Issue not found');
   }
 
-  const skip = (page - 1) * limit;
+  // Enforce pagination boundaries at service level
+  const safePage = Math.max(1, parseInt(queryParams.page, 10) || 1);
+  const safeLimit = Math.min(Math.max(1, parseInt(queryParams.limit, 10) || 10), 50);
 
-  // Concurrent execution using Promise.all and .lean() for read performance optimization
+  const skip = (safePage - 1) * safeLimit;
+
   const [comments, total] = await Promise.all([
     Comment.find({ issue: issueId })
       .populate('author', 'name email role')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit)
+      .limit(safeLimit)
       .lean(),
     Comment.countDocuments({ issue: issueId })
   ]);
 
-  const totalPages = Math.ceil(total / limit) || 1;
+  const totalPages = Math.ceil(total / safeLimit) || 1;
 
   return {
     comments,
     pagination: {
-      page,
-      limit,
+      page: safePage,
+      limit: safeLimit,
       total,
       totalPages,
-      hasNext: page < totalPages,
-      hasPrev: page > 1
+      hasNext: safePage < totalPages,
+      hasPrev: safePage > 1
     }
   };
 };
@@ -58,7 +62,8 @@ export const deleteComment = async (commentId, user) => {
     throw new ApiError(404, 'Comment not found');
   }
 
-  if (comment.author.toString() !== user._id.toString() && user.role !== 'admin') {
+  // Deduplicated ownership check allowing author, staff, or admin to delete comment
+  if (!isOwnerOrStaffOrAdmin(comment.author, user)) {
     throw new ApiError(403, 'Forbidden: You do not have permission to delete this comment');
   }
 

@@ -2,12 +2,9 @@ import { Issue } from '../models/issue.model.js';
 import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import { uploadImageStream, deleteImage } from '../config/cloudinary.js';
+import { isOwnerOrAdmin } from '../utils/authHelpers.js';
 
-// Central ownership check helper
-export const isOwnerOrAdmin = (issue, user) => {
-  if (!issue || !user) return false;
-  return issue.reportedBy.toString() === user._id.toString() || user.role === 'admin';
-};
+export { isOwnerOrAdmin };
 
 export const createIssue = async (userId, issueData, fileBuffer) => {
   let uploadResult = null;
@@ -17,11 +14,19 @@ export const createIssue = async (userId, issueData, fileBuffer) => {
     uploadResult = await uploadImageStream(fileBuffer);
   }
 
+  // Mass assignment hardening: Whitelist allowed user fields only
+  const { title, description, category, location, priority } = issueData;
+
   try {
-    // 2. Attempt database document persistence
+    // 2. Attempt database document persistence with sanitized payload
     const issue = new Issue({
-      ...issueData,
+      title,
+      description,
+      category,
+      location,
+      priority: priority || 'medium',
       reportedBy: userId,
+      status: 'open', // Always force open state on creation
       imageUrl: uploadResult?.secure_url || '',
       imagePublicId: uploadResult?.public_id || ''
     });
@@ -29,7 +34,7 @@ export const createIssue = async (userId, issueData, fileBuffer) => {
     await issue.save();
     return issue.populate('reportedBy', 'name email hostelBlock');
   } catch (dbError) {
-    // 3. Rollback: If DB save fails, destroy newly uploaded Cloudinary image to prevent orphaned assets
+    // 3. Rollback: Destroy newly uploaded Cloudinary image if DB save fails
     if (uploadResult?.public_id) {
       await deleteImage(uploadResult.public_id);
     }
@@ -37,46 +42,50 @@ export const createIssue = async (userId, issueData, fileBuffer) => {
   }
 };
 
-export const getIssues = async (queryParams, currentUserId) => {
-  const { page, limit, status, category, priority, search, sort, mine } = queryParams;
+export const getIssues = async (queryParams = {}, currentUserId) => {
+  const { status, category, priority, search, sort, mine } = queryParams;
+
+  // Enforce pagination upper and lower boundaries at service level
+  const safePage = Math.max(1, parseInt(queryParams.page, 10) || 1);
+  const safeLimit = Math.min(Math.max(1, parseInt(queryParams.limit, 10) || 10), 50);
 
   const query = {};
-  if (status) query.status = status;
-  if (category) query.category = category;
-  if (priority) query.priority = priority;
-  if (search) query.$text = { $search: search };
+  if (status && typeof status === 'string') query.status = status;
+  if (category && typeof category === 'string') query.category = category;
+  if (priority && typeof priority === 'string') query.priority = priority;
+  if (search && typeof search === 'string' && search.trim()) {
+    query.$text = { $search: search.trim() };
+  }
   if (mine) query.reportedBy = currentUserId;
 
   let sortObj = { createdAt: -1 };
   if (sort === 'oldest') sortObj = { createdAt: 1 };
   if (sort === 'most_upvoted') sortObj = { upvotes: -1, createdAt: -1 };
 
-  const skip = (page - 1) * limit;
+  const skip = (safePage - 1) * safeLimit;
 
-  // Concurrent execution of count and query using Promise.all
-  // Using .lean() for read-only query performance optimization (avoids Mongoose hydration overhead)
   const [issues, total] = await Promise.all([
     Issue.find(query)
       .populate('reportedBy', 'name email hostelBlock')
       .populate('assignedTo', 'name email')
       .sort(sortObj)
       .skip(skip)
-      .limit(limit)
+      .limit(safeLimit)
       .lean(),
     Issue.countDocuments(query)
   ]);
 
-  const totalPages = Math.ceil(total / limit) || 1;
+  const totalPages = Math.ceil(total / safeLimit) || 1;
 
   return {
     issues,
     pagination: {
-      page,
-      limit,
+      page: safePage,
+      limit: safeLimit,
       total,
       totalPages,
-      hasNext: page < totalPages,
-      hasPrev: page > 1
+      hasNext: safePage < totalPages,
+      hasPrev: safePage > 1
     }
   };
 };
@@ -107,9 +116,15 @@ export const updateIssue = async (issueId, user, updateData) => {
     throw new ApiError(400, 'Cannot edit an issue once processing has started or it is resolved');
   }
 
-  Object.assign(issue, updateData);
-  await issue.save();
+  // Mass assignment hardening: Whitelist allowed edit fields strictly
+  const allowedFields = ['title', 'description', 'category', 'location', 'priority'];
+  allowedFields.forEach((field) => {
+    if (updateData[field] !== undefined) {
+      issue[field] = updateData[field];
+    }
+  });
 
+  await issue.save();
   return issue.populate('reportedBy', 'name email hostelBlock');
 };
 
@@ -119,7 +134,7 @@ export const deleteIssue = async (issueId, user) => {
     throw new ApiError(404, 'Issue not found');
   }
 
-  if (!isOwnerOrAdmin(issue, user)) {
+  if (!isOwnerOrAdmin(issue.reportedBy, user)) {
     throw new ApiError(403, 'Forbidden: You do not have permission to delete this issue');
   }
 

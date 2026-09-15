@@ -41,10 +41,16 @@ export const errorHandler = (err, req, res, next) => {
     error = new ApiError(statusCode, message, errors, err.stack);
   }
 
+  // Information disclosure protection: In production, mask raw 500 internal server messages
+  const responseMessage =
+    env.NODE_ENV === 'production' && error.statusCode === 500
+      ? 'Internal Server Error'
+      : error.message;
+
   const response = {
     success: false,
     statusCode: error.statusCode,
-    message: error.message,
+    message: responseMessage,
     errors: error.errors,
     ...(env.NODE_ENV !== 'production' && { stack: error.stack })
   };

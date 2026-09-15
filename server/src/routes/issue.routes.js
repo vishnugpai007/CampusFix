@@ -5,6 +5,7 @@ import { authenticate } from '../middleware/authenticate.js';
 import { authorize } from '../middleware/authorize.js';
 import { validate } from '../middleware/validate.js';
 import { upload } from '../middleware/upload.js';
+import { uploadRateLimiter } from '../middleware/rateLimiter.js';
 import {
   createIssueSchema,
   updateIssueSchema,
@@ -24,7 +25,7 @@ router.get('/stats/summary', authorize('staff', 'admin'), issueController.getSta
 // Base issue collection endpoints
 router
   .route('/')
-  .post(upload.single('image'), validate(createIssueSchema), issueController.createIssue)
+  .post(uploadRateLimiter, upload.single('image'), validate(createIssueSchema), issueController.createIssue)
   .get(validate(issueQuerySchema, 'query'), issueController.getIssues);
 
 // Individual issue endpoints
