@@ -10,24 +10,31 @@ export const isOwnerOrAdmin = (issue, user) => {
 };
 
 export const createIssue = async (userId, issueData, fileBuffer) => {
-  let imageUrl = '';
-  let imagePublicId = '';
+  let uploadResult = null;
 
   if (fileBuffer) {
-    const uploadResult = await uploadImageStream(fileBuffer);
-    imageUrl = uploadResult.secure_url;
-    imagePublicId = uploadResult.public_id;
+    // 1. Upload to Cloudinary stream first
+    uploadResult = await uploadImageStream(fileBuffer);
   }
 
-  const issue = new Issue({
-    ...issueData,
-    reportedBy: userId,
-    imageUrl,
-    imagePublicId
-  });
+  try {
+    // 2. Attempt database document persistence
+    const issue = new Issue({
+      ...issueData,
+      reportedBy: userId,
+      imageUrl: uploadResult?.secure_url || '',
+      imagePublicId: uploadResult?.public_id || ''
+    });
 
-  await issue.save();
-  return issue.populate('reportedBy', 'name email hostelBlock');
+    await issue.save();
+    return issue.populate('reportedBy', 'name email hostelBlock');
+  } catch (dbError) {
+    // 3. Rollback: If DB save fails, destroy newly uploaded Cloudinary image to prevent orphaned assets
+    if (uploadResult?.public_id) {
+      await deleteImage(uploadResult.public_id);
+    }
+    throw dbError;
+  }
 };
 
 export const getIssues = async (queryParams, currentUserId) => {
