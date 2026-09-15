@@ -9,6 +9,7 @@ import { notFound } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import healthRouter from './routes/health.routes.js';
 import authRouter from './routes/auth.routes.js';
+import issueRouter from './routes/issue.routes.js';
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/api', globalLimiter);
 // 6. Application Routes
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/issues', issueRouter);
 
 // 7. 404 Not Found: Placed after all valid route definitions to catch unmatched endpoints.
 app.use(notFound);
