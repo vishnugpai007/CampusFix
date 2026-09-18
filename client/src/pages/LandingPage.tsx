@@ -47,9 +47,9 @@ export const LandingPage: React.FC = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950 py-8 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="font-medium text-slate-500">
+          <p className="font-medium text-slate-500 dark:text-slate-400">
             CampusFix · Student-run campus maintenance reporting
           </p>
         </div>

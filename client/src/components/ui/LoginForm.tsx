@@ -88,7 +88,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
   return (
     <div className="w-full max-w-md mx-auto space-y-6">
       {/* Role Picker Tabs */}
-      <div className="flex items-center justify-between p-1.5 rounded-2xl bg-slate-100 border border-slate-200">
+      <div className="flex items-center justify-between p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
         {(['student', 'staff', 'host'] as UserRole[]).map((r) => {
           const isActive = role === r;
           const meta = roleMeta[r];
@@ -101,11 +101,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
               onClick={() => navigate(meta.path)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold capitalize transition-all ${
                 isActive
-                  ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-600'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <TabIcon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-600' : ''}`} />
+              <TabIcon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-600 dark:text-sky-400' : ''}`} />
               <span>{r}</span>
             </button>
           );
@@ -113,18 +113,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
       </div>
 
       {/* Main Login Box */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50">
+      <div className="bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 dark:shadow-none">
         {/* Header inside Card */}
         <div className="flex flex-col items-center text-center mb-6">
           <div className={`p-3.5 rounded-2xl border ${currentMeta.color} mb-3`}>
             <Icon className="w-7 h-7" />
           </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">{currentMeta.title}</h2>
-          <span className="mt-1 text-xs text-slate-500 font-medium">{currentMeta.badge}</span>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{currentMeta.title}</h2>
+          <span className="mt-1 text-xs text-slate-500 dark:text-slate-400 font-medium">{currentMeta.badge}</span>
         </div>
 
         {generalError && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-medium">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium">
             {generalError}
           </div>
         )}
@@ -132,9 +132,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           {/* Email Field */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-700">Email Address</label>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Email Address</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                 <Mail className="w-4 h-4" />
               </div>
               <input
@@ -147,21 +147,21 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
                     message: 'Please enter a valid email address'
                   }
                 })}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all ${
-                  errors.email ? 'border-rose-300' : 'border-slate-200'
+                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/80 border rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-sky-500/30 focus:bg-white dark:focus:bg-slate-900 transition-all ${
+                  errors.email ? 'border-rose-300 dark:border-rose-700' : 'border-slate-200 dark:border-slate-700'
                 }`}
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-rose-600 mt-1 font-medium">{errors.email.message}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">{errors.email.message}</p>
             )}
           </div>
 
           {/* Password Field */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-700">Password</label>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Password</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
                 <Lock className="w-4 h-4" />
               </div>
               <input
@@ -170,13 +170,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
                 {...register('password', {
                   required: 'Password is required'
                 })}
-                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all ${
-                  errors.password ? 'border-rose-300' : 'border-slate-200'
+                className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/80 border rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-sky-500/30 focus:bg-white dark:focus:bg-slate-900 transition-all ${
+                  errors.password ? 'border-rose-300 dark:border-rose-700' : 'border-slate-200 dark:border-slate-700'
                 }`}
               />
             </div>
             {errors.password && (
-              <p className="text-xs text-rose-600 mt-1 font-medium">{errors.password.message}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">{errors.password.message}</p>
             )}
           </div>
 
@@ -188,7 +188,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all disabled:opacity-50"
+              className="w-full py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-sky-600 dark:hover:bg-sky-500 text-white font-semibold text-sm shadow-md transition-all disabled:opacity-50"
             >
               {isSubmitting ? 'Signing in...' : `Sign in as ${role.charAt(0).toUpperCase() + role.slice(1)}`}
             </button>
@@ -196,17 +196,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({ role = 'student' }) => {
         </form>
 
         {role === 'student' ? (
-          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-500">
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700/60 text-center">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               New student?{' '}
-              <Link to="/register" className="font-semibold text-blue-600 hover:underline">
+              <Link to="/register" className="font-semibold text-blue-600 dark:text-sky-400 hover:underline">
                 Create an account
               </Link>
             </p>
           </div>
         ) : (
-          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-400 italic">
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-700/60 text-center">
+            <p className="text-xs text-slate-400 dark:text-slate-500 italic">
               {role.charAt(0).toUpperCase() + role.slice(1)} accounts are managed by campus administration.
             </p>
           </div>

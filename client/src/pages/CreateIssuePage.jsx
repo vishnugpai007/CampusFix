@@ -123,22 +123,22 @@ const CreateIssuePage = () => {
       <div className="flex items-center gap-3">
         <Link
           to="/"
-          className="p-2 rounded-xl border border-slate-800 text-slate-400 hover:text-slate-100 hover:bg-slate-900 transition-colors"
+          className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-white dark:bg-slate-900 transition-colors shadow-xs"
         >
           <ArrowLeft className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-100">Report a New Issue</h1>
-          <p className="text-xs text-slate-400">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Report a New Issue</h1>
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Submit details and maintenance photos for prompt resolution
           </p>
         </div>
       </div>
 
       {/* Form Container */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-xl">
+      <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-xl">
         {generalError && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs sm:text-sm font-medium">
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium">
             {generalError}
           </div>
         )}
@@ -146,7 +146,7 @@ const CreateIssuePage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
           {/* Issue Title */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-300">Issue Title *</label>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Issue Title *</label>
             <input
               type="text"
               placeholder="e.g., Wi-Fi disconnected in Room 204"
@@ -155,12 +155,12 @@ const CreateIssuePage = () => {
                 minLength: { value: 5, message: 'Title must be at least 5 characters' },
                 maxLength: { value: 120, message: 'Title cannot exceed 120 characters' }
               })}
-              className={`w-full px-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                errors.title ? 'border-rose-500/80' : 'border-slate-800'
+              className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 transition-all ${
+                errors.title ? 'border-rose-400 dark:border-rose-500/80' : 'border-slate-200 dark:border-slate-800'
               }`}
             />
             {errors.title && (
-              <p className="text-xs text-rose-400 mt-1 font-medium">{errors.title.message}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">{errors.title.message}</p>
             )}
           </div>
 
@@ -168,10 +168,10 @@ const CreateIssuePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Category */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">Category *</label>
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Category *</label>
               <select
                 {...register('category', { required: 'Category is required' })}
-                className="w-full px-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
+                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 cursor-pointer"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat.value} value={cat.value}>
@@ -183,10 +183,10 @@ const CreateIssuePage = () => {
 
             {/* Priority */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">Priority Level</label>
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Priority Level</label>
               <select
                 {...register('priority')}
-                className="w-full px-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
+                className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 cursor-pointer"
               >
                 {PRIORITIES.map((pri) => (
                   <option key={pri.value} value={pri.value}>
@@ -199,7 +199,7 @@ const CreateIssuePage = () => {
 
           {/* Location */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-300">Specific Location *</label>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Specific Location *</label>
             <input
               type="text"
               placeholder="e.g., Hostel Block B, 2nd Floor, Room 204"
@@ -207,18 +207,18 @@ const CreateIssuePage = () => {
                 required: 'Location is required',
                 minLength: { value: 2, message: 'Location is required' }
               })}
-              className={`w-full px-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                errors.location ? 'border-rose-500/80' : 'border-slate-800'
+              className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 transition-all ${
+                errors.location ? 'border-rose-400 dark:border-rose-500/80' : 'border-slate-200 dark:border-slate-800'
               }`}
             />
             {errors.location && (
-              <p className="text-xs text-rose-400 mt-1 font-medium">{errors.location.message}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">{errors.location.message}</p>
             )}
           </div>
 
           {/* Description */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-300">Description *</label>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">Description *</label>
             <textarea
               rows={4}
               placeholder="Describe the issue in detail (e.g., when it started, symptoms, impact)..."
@@ -227,23 +227,23 @@ const CreateIssuePage = () => {
                 minLength: { value: 10, message: 'Description must be at least 10 characters' },
                 maxLength: { value: 2000, message: 'Description cannot exceed 2000 characters' }
               })}
-              className={`w-full px-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                errors.description ? 'border-rose-500/80' : 'border-slate-800'
+              className={`w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border rounded-xl text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 transition-all ${
+                errors.description ? 'border-rose-400 dark:border-rose-500/80' : 'border-slate-200 dark:border-slate-800'
               }`}
             />
             {errors.description && (
-              <p className="text-xs text-rose-400 mt-1 font-medium">{errors.description.message}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">{errors.description.message}</p>
             )}
           </div>
 
           {/* Image Upload with Instant Preview */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-300">
-              Attach Photo <span className="text-slate-500">(Optional, max 5MB)</span>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">
+              Attach Photo <span className="text-slate-400 dark:text-slate-500">(Optional, max 5MB)</span>
             </label>
 
             {imagePreview ? (
-              <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 max-h-64 flex items-center justify-center group">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 max-h-64 flex items-center justify-center group">
                 <img
                   src={imagePreview}
                   alt="Upload preview"
@@ -252,17 +252,17 @@ const CreateIssuePage = () => {
                 <button
                   type="button"
                   onClick={removeImage}
-                  className="absolute top-3 right-3 p-1.5 bg-slate-950/80 hover:bg-rose-500 text-slate-300 hover:text-white rounded-xl backdrop-blur-sm transition-colors border border-slate-800"
+                  className="absolute top-3 right-3 p-1.5 bg-slate-900/80 hover:bg-rose-500 text-white rounded-xl backdrop-blur-sm transition-colors border border-slate-700"
                   aria-label="Remove image preview"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-800 hover:border-sky-500/50 rounded-2xl bg-slate-950/40 hover:bg-slate-950/80 cursor-pointer transition-all group">
-                <UploadCloud className="w-8 h-8 text-slate-500 group-hover:text-sky-400 mb-2 transition-colors" />
-                <p className="text-xs text-slate-300 font-medium">Click or drag image to upload</p>
-                <p className="text-[11px] text-slate-500 mt-1">PNG, JPG, WebP up to 5MB</p>
+              <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-blue-400 dark:hover:border-sky-500/50 rounded-2xl bg-slate-50 dark:bg-slate-950/40 hover:bg-slate-100 dark:hover:bg-slate-950/80 cursor-pointer transition-all group">
+                <UploadCloud className="w-8 h-8 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-sky-400 mb-2 transition-colors" />
+                <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">Click or drag image to upload</p>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">PNG, JPG, WebP up to 5MB</p>
                 <input
                   type="file"
                   accept="image/*"

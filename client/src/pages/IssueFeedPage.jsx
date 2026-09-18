@@ -174,12 +174,12 @@ const IssueFeedPage = () => {
       <HeroSection />
 
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800/80">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100 flex items-center gap-2.5">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
             <span>Campus Issues Feed</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
             Browse, upvote, and track maintenance issues across campus
           </p>
         </div>
@@ -189,12 +189,12 @@ const IssueFeedPage = () => {
       </div>
 
       {/* Search & Filter Section */}
-      <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm backdrop-blur-md">
+      <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 sm:p-5 space-y-4 shadow-sm backdrop-blur-md">
         {/* Search & Sort Row */}
         <div className="flex flex-col sm:flex-row items-center gap-3">
           {/* Debounced Search Box */}
           <div className="relative w-full flex-1">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <Search className="w-4 h-4" />
             </div>
             <input
@@ -202,12 +202,12 @@ const IssueFeedPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search issues by title, description or location..."
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
               >
                 <XCircle className="w-4 h-4" />
               </button>
@@ -219,24 +219,24 @@ const IssueFeedPage = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full appearance-none px-4 py-2.5 pr-10 bg-slate-950/80 border border-slate-800 rounded-xl text-xs sm:text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
+              className="w-full appearance-none px-4 py-2.5 pr-10 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 dark:focus:ring-sky-500/50 cursor-pointer"
             >
               <option value="newest">Sort by Newest</option>
               <option value="oldest">Sort by Oldest</option>
               <option value="most_upvoted">Most Upvoted</option>
             </select>
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
               <ChevronDown className="w-4 h-4" />
             </div>
           </div>
         </div>
 
         {/* Filter Chips: Category & Status */}
-        <div className="space-y-3 pt-2 border-t border-slate-800/60">
+        <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800/60">
           {/* Status Filter Chips */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            <span className="text-xs font-semibold text-slate-400 shrink-0 mr-1 flex items-center gap-1">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-sky-400" />
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0 mr-1 flex items-center gap-1">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" />
               Status:
             </span>
             {STATUSES.map((st) => (
@@ -245,8 +245,8 @@ const IssueFeedPage = () => {
                 onClick={() => setSelectedStatus(st.id)}
                 className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
                   selectedStatus === st.id
-                    ? 'bg-sky-500/15 text-sky-400 border-sky-500/40 shadow-sm'
-                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'
+                    ? 'bg-blue-50 dark:bg-sky-500/15 text-blue-600 dark:text-sky-400 border-blue-200 dark:border-sky-500/40 shadow-sm'
+                    : 'bg-slate-50 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {st.label}
@@ -256,15 +256,15 @@ const IssueFeedPage = () => {
 
           {/* Category Filter Chips */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            <span className="text-xs font-semibold text-slate-400 shrink-0 mr-1">Category:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 shrink-0 mr-1">Category:</span>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
                   selectedCategory === cat.id
-                    ? 'bg-sky-500/15 text-sky-400 border-sky-500/40 shadow-sm'
-                    : 'bg-slate-950/60 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'
+                    ? 'bg-blue-50 dark:bg-sky-500/15 text-blue-600 dark:text-sky-400 border-blue-200 dark:border-sky-500/40 shadow-sm'
+                    : 'bg-slate-50 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {cat.label}
@@ -278,11 +278,11 @@ const IssueFeedPage = () => {
       {isLoading ? (
         <SkeletonFeed count={6} />
       ) : error ? (
-        <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-6 text-center text-rose-300">
+        <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-6 text-center text-rose-700 dark:text-rose-300">
           <p className="text-sm font-medium">{error}</p>
           <button
             onClick={fetchIssues}
-            className="mt-3 px-4 py-2 bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 rounded-xl text-xs font-semibold transition-colors"
+            className="mt-3 px-4 py-2 bg-rose-100 dark:bg-rose-500/20 hover:bg-rose-200 dark:hover:bg-rose-500/30 text-rose-800 dark:text-rose-200 rounded-xl text-xs font-semibold transition-colors"
           >
             Retry Fetching
           </button>
@@ -308,7 +308,7 @@ const IssueFeedPage = () => {
               <Link
                 key={issue._id}
                 to={`/issues/${issue._id}`}
-                className="group bg-slate-900/60 border border-slate-800 hover:border-sky-500/40 rounded-2xl p-5 transition-all duration-200 hover:shadow-xl hover:shadow-sky-500/5 flex flex-col justify-between"
+                className="group bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-sky-500/40 rounded-2xl p-5 transition-all duration-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 dark:hover:shadow-sky-500/5 flex flex-col justify-between"
               >
                 <div className="space-y-3.5">
                   {/* Card Header: Category & Status */}
@@ -319,17 +319,17 @@ const IssueFeedPage = () => {
 
                   {/* Title & Description */}
                   <div>
-                    <h2 className="text-base font-semibold text-slate-100 group-hover:text-sky-300 transition-colors line-clamp-1">
+                    <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-sky-300 transition-colors line-clamp-1">
                       {issue.title}
                     </h2>
-                    <p className="text-xs text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
                       {issue.description}
                     </p>
                   </div>
 
                   {/* Thumbnail Preview if issue has image */}
                   {issue.imageUrl && (
-                    <div className="overflow-hidden rounded-xl h-36 bg-slate-950 border border-slate-800">
+                    <div className="overflow-hidden rounded-xl h-36 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
                       <img
                         src={issue.imageUrl}
                         alt={issue.title}
@@ -341,15 +341,15 @@ const IssueFeedPage = () => {
                 </div>
 
                 {/* Card Footer: Metadata & Upvote Action */}
-                <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+                    <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium">
                       <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       <span className="truncate max-w-[120px] sm:max-w-[160px]">
                         {issue.location}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-[11px] text-slate-500">
+                    <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-500">
                       <Clock className="w-3 h-3 shrink-0" />
                       <span>{formatTimeAgo(issue.createdAt)}</span>
                     </div>
@@ -360,12 +360,12 @@ const IssueFeedPage = () => {
                     onClick={(e) => handleUpvoteToggle(e, issue._id, hasUpvoted, upvoteCount)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
                       hasUpvoted
-                        ? 'bg-sky-500/20 text-sky-400 border-sky-500/40 shadow-sm'
-                        : 'bg-slate-950/80 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'
+                        ? 'bg-blue-50 dark:bg-sky-500/20 text-blue-600 dark:text-sky-400 border-blue-200 dark:border-sky-500/40 shadow-sm'
+                        : 'bg-slate-50 dark:bg-slate-950/80 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
                     }`}
                     title={hasUpvoted ? 'Remove upvote' : 'Upvote this issue'}
                   >
-                    <ThumbsUp className={`w-3.5 h-3.5 ${hasUpvoted ? 'fill-sky-400' : ''}`} />
+                    <ThumbsUp className={`w-3.5 h-3.5 ${hasUpvoted ? 'fill-blue-600 dark:fill-sky-400' : ''}`} />
                     <span>{upvoteCount}</span>
                   </button>
                 </div>
