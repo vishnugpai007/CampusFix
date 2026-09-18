@@ -3,20 +3,22 @@ import { User } from '../models/user.model.js';
 import { ApiError } from '../utils/ApiError.js';
 import { env } from '../config/env.js';
 
-export const registerUser = async ({ name, email, password, hostelBlock }) => {
+export const registerUser = async ({ name, email, password, hostelBlock, role = 'student' }) => {
   // Check for existing user
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new ApiError(409, 'User with this email already exists');
   }
 
-  // Enforce role to 'student' strictly to prevent privilege escalation attacks
+  // Ensure role is one of valid enum values
+  const validRole = ['student', 'staff', 'host'].includes(role) ? role : 'student';
+
   const user = new User({
     name,
     email,
     password,
     hostelBlock,
-    role: 'student'
+    role: validRole
   });
 
   await user.save();
@@ -30,7 +32,7 @@ export const registerUser = async ({ name, email, password, hostelBlock }) => {
   return { user, accessToken, refreshToken };
 };
 
-export const loginUser = async ({ email, password }) => {
+export const loginUser = async ({ email, password, role }) => {
   // Select password explicitly since it has select: false in schema
   const user = await User.findOne({ email }).select('+password');
 
@@ -44,6 +46,12 @@ export const loginUser = async ({ email, password }) => {
   const isPasswordValid = await user.comparePassword(password);
   if (!isPasswordValid) {
     throw new ApiError(401, GENERIC_AUTH_ERROR);
+  }
+
+  // Check portal role match if specified
+  if (role && user.role !== role) {
+    const roleCapitalized = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+    throw new ApiError(403, `Role mismatch: This account is registered as ${user.role === 'host' ? 'a Host' : 'a ' + roleCapitalized}. Please log in via the ${roleCapitalized} portal.`);
   }
 
   const accessToken = user.generateAccessToken();

@@ -80,9 +80,11 @@ export const AuthProvider = ({ children }) => {
     };
   }, [updateAccessToken]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, role) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const payload = { email, password };
+      if (role) payload.role = role;
+      const response = await api.post('/auth/login', payload);
       const { user: loggedInUser, accessToken: newAccessToken } = response.data.data;
       setUser(loggedInUser);
       updateAccessToken(newAccessToken);

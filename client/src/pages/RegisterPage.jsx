@@ -50,21 +50,21 @@ const RegisterPage = () => {
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex p-3 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 mb-1">
-            <Wrench className="w-8 h-8" />
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-100">
-            Create an Account
+          <Link to="/" className="inline-block hover:scale-105 transition-transform">
+            <img src="/logo.png" alt="CampusFix Logo" className="h-16 w-auto mx-auto object-contain" />
+          </Link>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+            Create Student Account
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600">
             Join CampusFix to report issues and track resolutions
           </p>
         </div>
 
         {/* Form Box */}
-        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-xl">
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50">
           {generalError && (
-            <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs sm:text-sm font-medium">
+            <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-medium">
               {generalError}
             </div>
           )}
@@ -72,9 +72,9 @@ const RegisterPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
             {/* Full Name */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">Full Name</label>
+              <label className="block text-xs font-medium text-slate-700">Full Name</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -84,21 +84,21 @@ const RegisterPage = () => {
                     required: 'Full name is required',
                     minLength: { value: 2, message: 'Name must be at least 2 characters' }
                   })}
-                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                    errors.name ? 'border-rose-500/80' : 'border-slate-800'
+                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all ${
+                    errors.name ? 'border-rose-300' : 'border-slate-200'
                   }`}
                 />
               </div>
               {errors.name && (
-                <p className="text-xs text-rose-400 mt-1 font-medium">{errors.name.message}</p>
+                <p className="text-xs text-rose-600 mt-1 font-medium">{errors.name.message}</p>
               )}
             </div>
 
             {/* Email Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">Email Address</label>
+              <label className="block text-xs font-medium text-slate-700">Email Address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -111,21 +111,21 @@ const RegisterPage = () => {
                       message: 'Please enter a valid email address'
                     }
                   })}
-                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                    errors.email ? 'border-rose-500/80' : 'border-slate-800'
+                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all ${
+                    errors.email ? 'border-rose-300' : 'border-slate-200'
                   }`}
                 />
               </div>
               {errors.email && (
-                <p className="text-xs text-rose-400 mt-1 font-medium">{errors.email.message}</p>
+                <p className="text-xs text-rose-600 mt-1 font-medium">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password Field */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">Password</label>
+              <label className="block text-xs font-medium text-slate-700">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -135,49 +135,50 @@ const RegisterPage = () => {
                     required: 'Password is required',
                     minLength: { value: 8, message: 'Password must be at least 8 characters' }
                   })}
-                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all ${
-                    errors.password ? 'border-rose-500/80' : 'border-slate-800'
+                  className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all ${
+                    errors.password ? 'border-rose-300' : 'border-slate-200'
                   }`}
                 />
               </div>
               {errors.password && (
-                <p className="text-xs text-rose-400 mt-1 font-medium">{errors.password.message}</p>
+                <p className="text-xs text-rose-600 mt-1 font-medium">{errors.password.message}</p>
               )}
             </div>
 
             {/* Hostel Block / Building (Optional) */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-slate-300">
-                Hostel / Residence Block <span className="text-slate-500">(Optional)</span>
+              <label className="block text-xs font-medium text-slate-700">
+                Hostel / Residence Block <span className="text-slate-400">(Optional)</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Building className="w-4 h-4" />
                 </div>
                 <input
                   type="text"
                   placeholder="Block B, Room 304"
                   {...register('hostelBlock')}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all"
                 />
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-center pt-2">
-              <FlowButton 
-                type="submit" 
-                disabled={isSubmitting} 
-                text={isSubmitting ? "Creating account..." : "Create Account"}
-                className="w-full"
-              />
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-all disabled:opacity-50"
+              >
+                {isSubmitting ? 'Creating account...' : 'Create Account'}
+              </button>
             </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-800 text-center">
-            <p className="text-xs text-slate-400">
+          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-500">
               Already have an account?{' '}
-              <Link to="/login" className="font-semibold text-sky-400 hover:underline">
+              <Link to="/login/student" className="font-semibold text-blue-600 hover:underline">
                 Sign in
               </Link>
             </p>

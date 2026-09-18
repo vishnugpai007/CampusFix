@@ -14,7 +14,8 @@ export const registerSchema = z.object({
   password: z
     .string({ required_error: 'Password is required' })
     .min(8, 'Password must be at least 8 characters'),
-  hostelBlock: z.string().trim().optional()
+  hostelBlock: z.string().trim().optional(),
+  role: z.enum(['student', 'staff', 'host']).optional().default('student')
 });
 
 export const loginSchema = z.object({
@@ -25,5 +26,6 @@ export const loginSchema = z.object({
     .email('Please provide a valid email address'),
   password: z
     .string({ required_error: 'Password is required' })
-    .min(1, 'Password is required')
+    .min(1, 'Password is required'),
+  role: z.enum(['student', 'staff', 'host']).optional()
 });

@@ -20,7 +20,7 @@ const router = Router();
 router.use(authenticate);
 
 // Aggregated stats endpoint (must be defined before /:id)
-router.get('/stats/summary', authorize('staff', 'admin'), issueController.getStatsSummary);
+router.get('/stats/summary', authorize('staff', 'host'), issueController.getStatsSummary);
 
 // Base issue collection endpoints
 router
@@ -36,8 +36,8 @@ router
   .delete(issueController.deleteIssue);
 
 // Workflow state & action endpoints
-router.patch('/:id/status', authorize('staff', 'admin'), validate(updateStatusSchema), issueController.updateStatus);
-router.patch('/:id/assign', authorize('admin'), validate(assignIssueSchema), issueController.assignIssue);
+router.patch('/:id/status', authorize('staff', 'host'), validate(updateStatusSchema), issueController.updateStatus);
+router.patch('/:id/assign', authorize('host'), validate(assignIssueSchema), issueController.assignIssue);
 router.post('/:id/upvote', issueController.toggleUpvote);
 
 export default router;

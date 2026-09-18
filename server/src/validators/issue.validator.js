@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const CATEGORIES = ['wifi', 'electricity', 'water', 'mess', 'furniture', 'cleanliness', 'security', 'other'];
+const CATEGORIES = ['wifi', 'electricity', 'water', 'mess', 'furniture', 'cleanliness', 'security', 'ragging_desk', 'other'];
 const STATUSES = ['open', 'in_progress', 'resolved', 'rejected'];
 const PRIORITIES = ['low', 'medium', 'high'];
 

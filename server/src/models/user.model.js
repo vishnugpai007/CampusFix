@@ -31,9 +31,10 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: {
-        values: ['student', 'staff', 'admin'],
-        message: 'Role must be student, staff, or admin'
+        values: ['student', 'staff', 'host'],
+        message: 'Role must be student, staff, or host'
       },
+      required: true,
       default: 'student'
     },
     hostelBlock: {

@@ -38,15 +38,15 @@ const seedDatabase = async () => {
     });
     await staff.save();
 
-    // Create Admin Account
-    const admin = new User({
-      name: 'Chief Admin',
-      email: 'admin@campus.edu',
+    // Create Host Account
+    const host = new User({
+      name: 'Hostel Warden / Host',
+      email: 'host@campus.edu',
       password: 'password123',
-      role: 'admin',
-      hostelBlock: 'Main Office'
+      role: 'host',
+      hostelBlock: 'Warden Office'
     });
-    await admin.save();
+    await host.save();
 
     console.log('Creating sample campus issues...');
 
@@ -61,6 +61,17 @@ const seedDatabase = async () => {
       upvotes: [staff._id]
     });
     await issue1.save();
+
+    const raggingIssue = new Issue({
+      title: 'Late Night Disturbance in Block B',
+      description: 'Confidential report submitted to the Ragging Desk regarding late-night harassment near West Wing.',
+      category: 'ragging_desk',
+      location: 'Hostel Block B, West Corridor',
+      priority: 'high',
+      status: 'open',
+      reportedBy: student._id
+    });
+    await raggingIssue.save();
 
     const issue2 = new Issue({
       title: 'Water Leakage in Main Washroom',
@@ -131,10 +142,10 @@ const seedDatabase = async () => {
     console.log('   Password: password123');
     console.log('   Role:     Staff');
     console.log('--------------------------------------------------');
-    console.log('3. ADMIN ACCOUNT (Full Control & Dashboard):');
-    console.log('   Email:    admin@campus.edu');
+    console.log('3. HOST ACCOUNT (Full Queue & Ragging Desk Reports):');
+    console.log('   Email:    host@campus.edu');
     console.log('   Password: password123');
-    console.log('   Role:     Admin');
+    console.log('   Role:     Host');
     console.log('==================================================\n');
 
     await mongoose.connection.close();
