@@ -13,6 +13,7 @@ import {
   AlertCircle,
   FileImage
 } from 'lucide-react';
+import { FlowButton } from '../components/ui/flow-button';
 
 const CATEGORIES = [
   { value: 'wifi', label: 'Wi-Fi / Internet' },
@@ -273,24 +274,13 @@ const CreateIssuePage = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="pt-2">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-all shadow-md shadow-sky-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Submitting Report...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Submit Issue Report</span>
-                </>
-              )}
-            </button>
+          <div className="pt-2 flex justify-center">
+            <FlowButton 
+              type="submit" 
+              disabled={isSubmitting} 
+              text={isSubmitting ? "Submitting Report..." : "Submit Issue Report"}
+              className="w-full"
+            />
           </div>
         </form>
       </div>

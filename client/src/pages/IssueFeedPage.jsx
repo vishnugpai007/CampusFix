@@ -10,6 +10,8 @@ import Badge from '../components/ui/Badge';
 import EmptyState from '../components/ui/EmptyState';
 import { SkeletonFeed } from '../components/ui/SkeletonCard';
 import Pagination from '../components/ui/Pagination';
+import HeroSection from '../components/ui/hero-section';
+import { FlowButton } from '../components/ui/flow-button';
 
 import {
   Search,
@@ -168,6 +170,9 @@ const IssueFeedPage = () => {
 
   return (
     <div className="space-y-6 sm:space-y-8">
+      {/* Hero Section */}
+      <HeroSection />
+
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/80">
         <div>
@@ -178,12 +183,8 @@ const IssueFeedPage = () => {
             Browse, upvote, and track maintenance issues across campus
           </p>
         </div>
-        <Link
-          to="/issues/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-all shadow-md shadow-sky-500/10 active:scale-95 shrink-0"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>Report New Issue</span>
+        <Link to="/issues/new">
+          <FlowButton text="Report New Issue" />
         </Link>
       </div>
 

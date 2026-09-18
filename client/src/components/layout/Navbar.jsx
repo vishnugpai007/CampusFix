@@ -13,6 +13,7 @@ import {
   User,
   ShieldCheck
 } from 'lucide-react';
+import { FlowButton } from '../ui/flow-button';
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -104,17 +105,11 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link
-                to="/login"
-                className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-slate-100 hover:bg-slate-800/60 rounded-xl transition-all"
-              >
-                Sign In
+              <Link to="/login">
+                <FlowButton text="Sign In" className="px-5 py-1.5 text-xs border-slate-800 text-slate-300" />
               </Link>
-              <Link
-                to="/register"
-                className="px-4 py-2 text-sm font-medium bg-sky-500 hover:bg-sky-400 text-slate-950 rounded-xl transition-all shadow-sm"
-              >
-                Register
+              <Link to="/register">
+                <FlowButton text="Register" className="px-5 py-1.5 text-xs" />
               </Link>
             </div>
           )}

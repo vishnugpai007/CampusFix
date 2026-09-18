@@ -1,5 +1,6 @@
 import React from 'react';
-import { Inbox, FilterX, PlusCircle } from 'lucide-react';
+import { Inbox } from 'lucide-react';
+import { FlowButton } from './flow-button';
 
 const EmptyState = ({
   icon: CustomIcon = Inbox,
@@ -18,12 +19,10 @@ const EmptyState = ({
       <p className="text-sm text-slate-400 max-w-sm mb-6 leading-relaxed">{description}</p>
 
       {actionLabel && onAction && (
-        <button
+        <FlowButton
           onClick={onAction}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-medium text-sm transition-all shadow-sm shadow-sky-500/10 active:scale-95"
-        >
-          {actionLabel}
-        </button>
+          text={actionLabel}
+        />
       )}
     </div>
   );

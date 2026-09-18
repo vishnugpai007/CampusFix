@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "lucide-react": "^1.47.0",
     "mongodb": "^7.6.0"
   }
 }

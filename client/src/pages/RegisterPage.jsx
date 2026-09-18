@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Wrench, Loader2, User, Mail, Lock, Building, ArrowRight } from 'lucide-react';
+import { FlowButton } from '../components/ui/flow-button';
 
 const RegisterPage = () => {
   const { register: registerUser } = useAuth();
@@ -163,23 +164,14 @@ const RegisterPage = () => {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full mt-2 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition-all shadow-md shadow-sky-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Creating account...</span>
-                </>
-              ) : (
-                <>
-                  <span>Create Account</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
+            <div className="flex justify-center pt-2">
+              <FlowButton 
+                type="submit" 
+                disabled={isSubmitting} 
+                text={isSubmitting ? "Creating account..." : "Create Account"}
+                className="w-full"
+              />
+            </div>
           </form>
 
           <div className="mt-6 pt-6 border-t border-slate-800 text-center">
