@@ -116,14 +116,18 @@ const AppRoutes = () => {
   );
 };
 
+import { ThemeProvider } from './context/ThemeContext';
+
 const App = () => {
   return (
     <BrowserRouter>
-      <ToastProvider>
-        <AuthProvider>
-          <AppRoutes />
-        </AuthProvider>
-      </ToastProvider>
+      <ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
