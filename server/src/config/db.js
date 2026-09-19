@@ -1,24 +1,43 @@
 import mongoose from 'mongoose';
 import { env } from './env.js';
 
+let isConnecting = null;
+
 export const connectDB = async () => {
+  // 1. If already connected, reuse connection
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
+  // 2. If currently connecting, wait for existing promise
+  if (isConnecting) {
+    await isConnecting;
+    return;
+  }
+
   try {
     mongoose.connection.on('connected', () => {
       console.log('MongoDB connection established.');
     });
 
     mongoose.connection.on('error', (err) => {
-      console.error('MongoDB connection error:', err);
+      console.error('MongoDB connection error:', err.message);
     });
 
     mongoose.connection.on('disconnected', () => {
-      console.warn('MongoDB connection lost. Disconnected.');
+      console.warn('MongoDB connection lost.');
     });
 
-    await mongoose.connect(env.MONGO_URI);
+    isConnecting = mongoose.connect(env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000
+    });
+
+    await isConnecting;
   } catch (error) {
-    console.error('Failed to connect to MongoDB on startup:', error.message);
-    process.exit(1);
+    console.error('Failed to connect to MongoDB:', error.message);
+    throw error;
+  } finally {
+    isConnecting = null;
   }
 };
 
@@ -36,3 +55,4 @@ const handleGracefulShutdown = async (signal) => {
 
 process.on('SIGINT', () => handleGracefulShutdown('SIGINT'));
 process.on('SIGTERM', () => handleGracefulShutdown('SIGTERM'));
+

@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 
 import { env } from './config/env.js';
+import { connectDB } from './config/db.js';
 import { notFound } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import healthRouter from './routes/health.routes.js';
@@ -35,7 +36,17 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 // 4. Cookie Parser: Runs before routes so authentication cookies are accessible via req.cookies.
 app.use(cookieParser());
 
-// 5. Global Rate Limiter: Placed after body/cookie setup but before routes to protect endpoints from abuse/DoS.
+// 5. Serverless Database Auto-Connect Middleware
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 6. Global Rate Limiter: Placed after body/cookie setup but before routes to protect endpoints from abuse/DoS.
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
